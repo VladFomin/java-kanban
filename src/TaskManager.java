@@ -1,95 +1,56 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
+    private int lastId = 0;
 
-
-    public void createTask(Task task) {
-        tasks.put(task.getId(), task);
+        // Получение списков задач
+    public List<Task> getAllTasks(){
+        return new ArrayList<>(tasks.values());
     }
 
-    public Task getTaskById(int id) {
-        return tasks.get(id);
+    public List<Epic> getAllEpics(){
+        return new ArrayList<>(epics.values());
     }
 
-    public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
+    public List<Subtask> getAllSubtasks(){
+        return new ArrayList<>(subtasks.values());
     }
 
-    public void deleteTaskById(int id) {
-        tasks.remove(id);
-    }
+    // Удаление всех задач
 
     public void removeAllTasks() {
         tasks.clear();
     }
 
-    public Map<Integer, Task> getAllTasks() {
-        return tasks;
-    }
-
-
-    public void createEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
-    }
-
-    public Epic getEpicById(int id) {
-        return epics.get(id);
-    }
-
-    public void updateEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
-    }
-
-    public void deleteEpicById(int id) {
-        epics.remove(id);
-    }
-
     public void removeAllEpics() {
         epics.clear();
-    }
-
-    public Map<Integer, Epic> getAllEpics() {
-        return epics;
-    }
-
-
-    public void createSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-    }
-
-    public Subtask getSubtaskById(int id) {
-        return subtasks.get(id);
-    }
-
-    public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-    }
-
-    public void deleteSubtaskById(int id) {
-        subtasks.remove(id);
-    }
-
-    public void removeAllSubtasks() {
         subtasks.clear();
     }
 
-    public Map<Integer, Subtask> getAllSubtasks() {
-        return subtasks;
+    // Получение по индефикатору
+    public Task getTaskById (int id){
+        return tasks.get(id);
     }
 
-    // Дополнительные методы
-    public Map<Integer, Subtask> getSubtasksByEpicId(int epicId) {
-        Map<Integer, Subtask> subtasksByEpicId = new HashMap<>();
-        for (Subtask subtask : subtasks.values()) {
-            if (subtask.getEpicId() == epicId) {
-                subtasksByEpicId.put(subtask.getId(), subtask);
-            }
-        }
-        return subtasksByEpicId;
+    public Epic getEpicById (int id) {
+        return epics.get(id);
+    }
+
+    public Subtask getSubtaskById(int id){
+        return subtasks.get(id);
+    }
+
+    // Создание объектов
+
+    public void createTask(Task task) {
+        task.setId(++lastId);
+        tasks.put(lastId, task);
     }
 
 }
