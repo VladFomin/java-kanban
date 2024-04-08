@@ -1,7 +1,11 @@
+package model;
+
+import java.util.Objects;
+
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(String name, String description, TaskStatus taskStatus, int epicId) {
+    public Subtask(String name, String description, Task.TaskStatus taskStatus, int epicId) {
         super(name, description, taskStatus);
         this.epicId = epicId;
     }
@@ -11,6 +15,12 @@ public class Subtask extends Task {
 
     public void setEpicId(int epicId) {
         this.epicId = epicId;
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), epicId);
     }
 }
 
