@@ -2,11 +2,12 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 import service.TaskManager;
+import service.Manager;
 
 public class Main {
     public static void main(String[] args) {
         // Создание менеджера задач
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Manager.getDefaultHistory();
 
         // Создание двух задач
         Task task1 = new Task("Задача 1", "Описание задачи 1", Task.TaskStatus.NEW);
@@ -50,5 +51,29 @@ public class Main {
         // Распечатка обновленных списков
         System.out.println("Обновленный список задач: " + taskManager.getAllTasks());
         System.out.println("Обновленный список эпиков: " + taskManager.getAllEpics());
+    }
+
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Epic epic : manager.getAllEpics()) {
+            System.out.println(epic);
+
+            for (Subtask subtask : manager.getSubtasksByEpic(epic.getId())) {
+                System.out.println("--> " + subtask);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Subtask subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }

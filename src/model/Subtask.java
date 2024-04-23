@@ -22,5 +22,13 @@ public class Subtask extends Task {
     public int hashCode() {
         return Objects.hash(super.hashCode(), epicId);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return getId() == task.getId();
+    }
 }
 
