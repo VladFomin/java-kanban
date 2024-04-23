@@ -20,11 +20,11 @@ class InMemoryHistoryManagerTest {
     @Test
     void shouldSavePreviousVersionOfTask() {
         // Создаем и добавляем начальную версию задачи
-        Task initialTask = new Task("Task", "Initial Description", Task.TaskStatus.NEW);
+        Task initialTask = new Task("Task", "Initial Description", Task.Status.NEW);
         historyManager.add(initialTask);
 
         // Создаем и добавляем обновленную версию задачи
-        Task updatedTask = new Task("Updated Task", "Updated Description", Task.TaskStatus.IN_PROGRESS);
+        Task updatedTask = new Task("Updated Task", "Updated Description", Task.Status.IN_PROGRESS);
         historyManager.add(updatedTask);
 
         List<Task> history = historyManager.getHistory();
@@ -35,11 +35,11 @@ class InMemoryHistoryManagerTest {
         // Проверяем,что первая версия задачи соответствует начальным данным
         assertEquals("Task", history.get(0).getName());
         assertEquals("Initial Description", history.get(0).getDescription());
-        assertEquals(Task.TaskStatus.NEW, history.get(0).getTaskStatus());
+        assertEquals(Task.Status.NEW, history.get(0).getStatus());
 
         // Проверяем,что вторая версия задачи соответствует обновленным данным
         assertEquals("Updated Task", history.get(1).getName());
         assertEquals("Updated Description", history.get(1).getDescription());
-        assertEquals(Task.TaskStatus.IN_PROGRESS, history.get(1).getTaskStatus());
+        assertEquals(Task.Status.IN_PROGRESS, history.get(1).getStatus());
     }
 }

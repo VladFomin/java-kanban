@@ -9,6 +9,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
+        // Проверяет есть ли задача в истории,если есть удаляет
+        boolean containsTask = history.contains(task);
+        if (containsTask) {
+            history.remove(task);
+        }
         history.add(task);
         while (history.size() > 10) {
             history.remove(0);

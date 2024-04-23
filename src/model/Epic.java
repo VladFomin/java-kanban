@@ -7,8 +7,8 @@ import java.util.Objects;
 public class Epic extends Task {
     private List<Subtask> subtasks;
 
-    public Epic(String name, String description, Task.TaskStatus taskStatus) {
-        super(name, description, taskStatus);
+    public Epic(String name, String description, Task.Status Status) {
+        super(name, description, Status);
         this.subtasks = new ArrayList<>();
     }
 
@@ -30,20 +30,20 @@ public class Epic extends Task {
         boolean allDone = true;
 
         for (Subtask subtask : subtasks) {
-            if (subtask.getTaskStatus() != TaskStatus.NEW) {
+            if (subtask.getStatus() != Status.NEW) {
                 allNew = false;
             }
-            if (subtask.getTaskStatus() != TaskStatus.DONE) {
+            if (subtask.getStatus() != Status.DONE) {
                 allDone = false;
             }
         }
 
         if (allNew) {
-            setTaskStatus(TaskStatus.NEW);
+            setStatus(Status.NEW);
         } else if (allDone) {
-            setTaskStatus(TaskStatus.DONE);
+            setStatus(Status.DONE);
         } else {
-            setTaskStatus(TaskStatus.IN_PROGRESS);
+            setStatus(Status.IN_PROGRESS);
         }
     }
 

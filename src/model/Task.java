@@ -6,18 +6,18 @@ public class Task {
     private String name;
     private String description;
     private int id;
-    private TaskStatus taskStatus;
+    private Status Status;
 
-    public enum TaskStatus {
+    public enum Status {
         NEW,
         IN_PROGRESS,
         DONE
     }
 
-    public Task(String name, String description, TaskStatus taskStatus) {
+    public Task(String name, String description, Status Status) {
         this.name = name;
         this.description = description;
-        this.taskStatus = taskStatus;
+        this.Status = Status.NEW;
     }
 
     public String getName() {
@@ -44,12 +44,12 @@ public class Task {
         this.id = id;
     }
 
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
+    public Status getStatus() {
+        return Status;
     }
 
-    public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
+    public void setStatus(Status Status) {
+        this.Status = Status;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, taskStatus);
+        return Objects.hash(name, description, id, Status);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Task {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", taskStatus=" + taskStatus +
+                ", Status=" + Status +
                 '}';
     }
 }

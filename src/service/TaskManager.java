@@ -3,7 +3,7 @@ package service;
 import model.Epic;
 import model.Subtask;
 import model.Task;
-import model.Task.TaskStatus;
+import model.Task.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;

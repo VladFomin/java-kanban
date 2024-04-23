@@ -16,6 +16,10 @@ public class InMemoryTaskManager implements TaskManager {
     private int lastId = 0;
     private HistoryManager historyManager;
 
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
+
 
     // Получение списков задач
     @Override
@@ -167,20 +171,20 @@ public class InMemoryTaskManager implements TaskManager {
         boolean allDone = true;
 
         for (Subtask subtask : subtasks) {
-            if (subtask.getTaskStatus() != Task.TaskStatus.NEW) {
+            if (subtask.getStatus() != Task.Status.NEW) {
                 allNew = false;
             }
-            if (subtask.getTaskStatus() != Task.TaskStatus.DONE) {
+            if (subtask.getStatus() != Task.Status.DONE) {
                 allDone = false;
             }
         }
 
         if (allNew) {
-            epic.setTaskStatus(Task.TaskStatus.NEW);
+            epic.setStatus(Task.Status.NEW);
         } else if (allDone) {
-            epic.setTaskStatus(Task.TaskStatus.DONE);
+            epic.setStatus(Task.Status.DONE);
         } else {
-            epic.setTaskStatus(Task.TaskStatus.IN_PROGRESS);
+            epic.setStatus(Task.Status.IN_PROGRESS);
         }
     }
 
