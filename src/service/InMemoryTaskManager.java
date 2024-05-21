@@ -25,6 +25,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
+
     @Override
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -40,17 +41,18 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeAllTasks() {
         tasks.clear();
     }
+
     @Override
     public void removeAllEpics() {
         epics.clear();
         subtasks.clear();
     }
 
-    // Получение по индефикатору
+    // Получение по индификатору
     @Override
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
-        if (task != null) {
+        if (task!= null) {
             historyManager.add(task);
         }
         return task;
@@ -59,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
-        if (epic != null) {
+        if (epic!= null) {
             historyManager.add(epic);
         }
         return epic;
@@ -68,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
-        if (subtask != null) {
+        if (subtask!= null) {
             historyManager.add(subtask);
         }
         return subtask;
@@ -80,18 +82,20 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(++lastId);
         tasks.put(lastId, task);
     }
+
     @Override
     public void createEpic(Epic epic) {
         epic.setId(++lastId);
         epics.put(lastId, epic);
     }
+
     @Override
     public void createSubtask(Subtask subtask) {
         subtask.setId(++lastId);
         subtasks.put(lastId, subtask);
     }
 
-    //Обновление задач
+    // Обновление задач
     @Override
     public void updateTask(Task updatedTask) {
         int taskId = updatedTask.getId();
@@ -103,6 +107,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Задача с идентификатором " + taskId + " не найдена.");
         }
     }
+
     @Override
     public void updateEpic(Epic updatedEpic) {
         int epicId = updatedEpic.getId();
@@ -114,10 +119,11 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Задача с идентификатором" + epicId + "успешно добавлена");
         }
     }
+
     @Override
     public void updateSubtasks(int epicId, List<Subtask> newSubtasks) {
         Epic epic = epics.get(epicId);
-        if (epic != null) {
+        if (epic!= null) {
             epic.setSubtasks(newSubtasks);
             System.out.println("Сабтаски эпика с идентификатором " + epicId + " успешно обновлены.");
         } else {
@@ -125,7 +131,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //Удаление по индификатору
+    // Удаление по индификатору
     @Override
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
@@ -135,6 +141,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Задача с идентификатором" + id + "не найдена");
         }
     }
+
     @Override
     public void deleteEpicById(int id) {
         if (epics.containsKey(id)) {
@@ -150,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //Получение всех сабтасков определенного эпика
+    // Получение всех сабтасков определенного эпика
     @Override
     public List<Subtask> getSubtasksByEpic(int id) {
         if (epics.containsKey(id)) {
@@ -170,10 +177,10 @@ public class InMemoryTaskManager implements TaskManager {
         boolean allDone = true;
 
         for (Subtask subtask : subtasks) {
-            if (subtask.getStatus() != Task.Status.NEW) {
+            if (subtask.getStatus()!= Task.Status.NEW) {
                 allNew = false;
             }
-            if (subtask.getStatus() != Task.Status.DONE) {
+            if (subtask.getStatus()!= Task.Status.DONE) {
                 allDone = false;
             }
         }
