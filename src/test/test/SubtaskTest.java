@@ -1,9 +1,10 @@
 package test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import model.Subtask;
 import model.Task.Status;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubtaskTest {
     @Test
@@ -14,5 +15,4 @@ class SubtaskTest {
         subtask2.setId(1);
         assertEquals(subtask1, subtask2);
     }
-
 }

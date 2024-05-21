@@ -1,9 +1,10 @@
 package test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import model.Epic;
 import model.Task.Status;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EpicTest {
     @Test
@@ -14,5 +15,4 @@ class EpicTest {
         epic2.setId(1);
         assertEquals(epic1, epic2);
     }
-
 }

@@ -1,14 +1,15 @@
 package test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.HistoryManager;
 import service.InMemoryHistoryManager;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class HistoryManagerTest {
 
@@ -21,7 +22,7 @@ class HistoryManagerTest {
 
     @Test
     void shouldCorrectlyLinkAndRemoveVersionsOfTask() {
-        //проверяем работу связного списка задач
+        // проверяем работу связного списка задач
         Task task1 = new Task("Task1", "Description1", Task.Status.NEW);
         Task task2 = new Task("Task2", "Description2", Task.Status.IN_PROGRESS);
         task1.setId(1);

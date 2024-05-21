@@ -52,7 +52,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
-        if (task!= null) {
+        if (task != null) {
             historyManager.add(task);
         }
         return task;
@@ -61,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
-        if (epic!= null) {
+        if (epic != null) {
             historyManager.add(epic);
         }
         return epic;
@@ -70,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
-        if (subtask!= null) {
+        if (subtask != null) {
             historyManager.add(subtask);
         }
         return subtask;
@@ -114,16 +114,16 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (epics.containsKey(epicId)) {
             epics.put(epicId, updatedEpic);
-            System.out.println("Задача с индефикатором" + epicId + "успешно добавлена");
+            System.out.println("Эпик с идентификатором " + epicId + " успешно обновлен.");
         } else {
-            System.out.println("Задача с идентификатором" + epicId + "успешно добавлена");
+            System.out.println("Эпик с идентификатором " + epicId + " не найден.");
         }
     }
 
     @Override
     public void updateSubtasks(int epicId, List<Subtask> newSubtasks) {
         Epic epic = epics.get(epicId);
-        if (epic!= null) {
+        if (epic != null) {
             epic.setSubtasks(newSubtasks);
             System.out.println("Сабтаски эпика с идентификатором " + epicId + " успешно обновлены.");
         } else {
@@ -136,9 +136,9 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
-            System.out.println("Задача с идентификатором" + id + "удалена.");
+            System.out.println("Задача с идентификатором " + id + " удалена.");
         } else {
-            System.out.println("Задача с идентификатором" + id + "не найдена");
+            System.out.println("Задача с идентификатором " + id + " не найдена.");
         }
     }
 
@@ -162,10 +162,9 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getSubtasksByEpic(int id) {
         if (epics.containsKey(id)) {
             Epic epic = epics.get(id);
-            List<Subtask> subtasksByEpic = epic.getSubtasks();
-            return subtasksByEpic;
+            return epic.getSubtasks();
         } else {
-            System.out.println("Эпик с идентификатором" + id + "не найден.");
+            System.out.println("Эпик с идентификатором " + id + " не найден.");
             return new ArrayList<>();
         }
     }
@@ -177,10 +176,10 @@ public class InMemoryTaskManager implements TaskManager {
         boolean allDone = true;
 
         for (Subtask subtask : subtasks) {
-            if (subtask.getStatus()!= Task.Status.NEW) {
+            if (subtask.getStatus() != Task.Status.NEW) {
                 allNew = false;
             }
-            if (subtask.getStatus()!= Task.Status.DONE) {
+            if (subtask.getStatus() != Task.Status.DONE) {
                 allDone = false;
             }
         }
