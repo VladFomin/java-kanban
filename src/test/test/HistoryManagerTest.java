@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import service.HistoryManager;
 import service.InMemoryHistoryManager;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.util.List;
 
-class InMemoryHistoryManagerTest {
+class HistoryManagerTest {
 
     private HistoryManager historyManager;
 
