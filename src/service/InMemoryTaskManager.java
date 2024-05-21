@@ -20,7 +20,6 @@ public class InMemoryTaskManager implements TaskManager {
         this.historyManager = historyManager;
     }
 
-
     // Получение списков задач
     @Override
     public List<Task> getAllTasks() {

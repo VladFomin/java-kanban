@@ -38,4 +38,7 @@ class InMemoryTaskManagerTest {
         // Проверяем,что задачи с разными id не равны
         assertNotEquals(taskWithSpecifiedId, taskWithGeneratedId);
     }
+
+
 }
+

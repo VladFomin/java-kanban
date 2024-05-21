@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.HistoryManager;
 import service.InMemoryHistoryManager;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -18,28 +20,45 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldSavePreviousVersionOfTask() {
-        // Создаем и добавляем начальную версию задачи
-        Task initialTask = new Task("Task", "Initial Description", Task.Status.NEW);
-        historyManager.add(initialTask);
+    void shouldCorrectlyLinkAndRemoveVersionsOfTask() {
+        //проверяем работу связного списка задач
+        Task task1 = new Task("Task1", "Description1", Task.Status.NEW);
+        Task task2 = new Task("Task2", "Description2", Task.Status.IN_PROGRESS);
+        task1.setId(1);
+        task2.setId(2);
 
-        // Создаем и добавляем обновленную версию задачи
-        Task updatedTask = new Task("Updated Task", "Updated Description", Task.Status.IN_PROGRESS);
-        historyManager.add(updatedTask);
+        historyManager.linkLast(task1);
+        historyManager.linkLast(task2);
 
         List<Task> history = historyManager.getHistory();
-
-        // Проверяем,что история содержит две версии задачи
         assertEquals(2, history.size());
+        assertEquals(task1, history.get(0));
+        assertEquals(task2, history.get(1));
 
-        // Проверяем,что первая версия задачи соответствует начальным данным
-        assertEquals("Task", history.get(0).getName());
-        assertEquals("Initial Description", history.get(0).getDescription());
-        assertEquals(Task.Status.NEW, history.get(0).getStatus());
+        historyManager.remove(1);
+        history = historyManager.getHistory();
+        assertEquals(1, history.size());
+        assertEquals(task2, history.get(0));
+    }
 
-        // Проверяем,что вторая версия задачи соответствует обновленным данным
-        assertEquals("Updated Task", history.get(1).getName());
-        assertEquals("Updated Description", history.get(1).getDescription());
-        assertEquals(Task.Status.IN_PROGRESS, history.get(1).getStatus());
+    @Test
+    void shouldCorrectlyRemoveTaskFromHistory() {
+        // Создаем и добавляем задачи в историю
+        Task task1 = new Task("Task1", "Description1", Task.Status.NEW);
+        Task task2 = new Task("Task2", "Description2", Task.Status.IN_PROGRESS);
+        task1.setId(1);
+        task2.setId(2);
+
+        historyManager.linkLast(task1);
+        historyManager.linkLast(task2);
+
+        // Удаляем одну из задач
+        historyManager.remove(1);
+
+        // Проверяем, что история содержит только одну задачу
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size());
+        assertFalse(history.contains(task1)); // Проверяем, что удаленная задача больше не присутствует в истории
+        assertEquals(task2, history.get(0)); // Проверяем, что оставшаяся задача соответствует ожидаемым данным
     }
 }
