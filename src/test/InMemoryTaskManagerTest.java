@@ -1,5 +1,3 @@
-package test;
-
 import model.Task;
 import model.Task.Status;
 import org.junit.jupiter.api.BeforeEach;
