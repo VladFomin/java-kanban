@@ -1,4 +1,5 @@
 package test;
+
 import model.Task;
 import model.Task.Status;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import service.TaskManager;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import service.HistoryManager;
 import service.InMemoryHistoryManager;
+
 class InMemoryTaskManagerTest {
 
     private TaskManager taskManager;
@@ -34,4 +36,3 @@ class InMemoryTaskManagerTest {
         assertNotEquals(taskWithSpecifiedId, taskWithGeneratedId);
     }
 }
-
