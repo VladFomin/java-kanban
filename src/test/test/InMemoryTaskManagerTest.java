@@ -1,8 +1,4 @@
 package test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import model.Epic;
-import model.Subtask;
 import model.Task;
 import model.Task.Status;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +18,6 @@ class InMemoryTaskManagerTest {
         taskManager = new InMemoryTaskManager(historyManager);
     }
 
-
     @Test
     void shouldNotConflictGeneratedId() {
         // Создаем задачу с генерированным id
@@ -35,10 +30,8 @@ class InMemoryTaskManagerTest {
         taskManager.createTask(taskWithSpecifiedId);
         taskManager.createTask(taskWithGeneratedId);
 
-        // Проверяем,что задачи с разными id не равны
+        // Проверяем, что задачи с разными id не равны
         assertNotEquals(taskWithSpecifiedId, taskWithGeneratedId);
     }
-
-
 }
 
