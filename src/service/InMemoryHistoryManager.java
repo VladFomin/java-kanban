@@ -56,9 +56,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         List<Task> tasksList = new ArrayList<>();
         Node currentNode = head;
         while (currentNode != null) {
-            if (currentNode.task != null) {  // Проверка, что задача не равна null
-                tasksList.add(currentNode.task);
-            }
+            tasksList.add(currentNode.task);
+
             currentNode = currentNode.next;
         }
         return tasksList;
@@ -66,6 +65,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
+        if (task == null) {
+            return;
+        }
         if (history.containsKey(task.getId())) {
             remove(task.getId());
         }
