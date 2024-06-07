@@ -109,6 +109,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public String toString() {
+        return "InMemoryTaskManager{" +
+                "historyManager=" + historyManager +
+                '}';
+    }
+
+    @Override
     public void updateEpic(Epic updatedEpic) {
         int epicId = updatedEpic.getId();
 
