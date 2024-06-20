@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Epic extends Task {
     private List<Subtask> subtasks;
 
-    public Epic(String name, String description, Task.Status Status) {
-        super(name, description, Status);
-        this.subtasks = new ArrayList<>();
+    public Epic(String name, String description, Task.Status status) {
+        super(name, description, status);
+        subtasks = new ArrayList<>();
     }
 
     public List<Subtask> getSubtasks() {
@@ -47,8 +47,6 @@ public class Epic extends Task {
         }
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,4 +59,4 @@ public class Epic extends Task {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getId());
     }
-    }
+}
