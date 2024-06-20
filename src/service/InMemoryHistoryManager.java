@@ -11,18 +11,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     private Node head = null;
     private Node tail = null;
 
-    private static class Node {
-        Node prev;
-        Node next;
-        Task task;
-
-        Node(Node prev, Node next, Task task) {
-            this.prev = prev;
-            this.next = next;
-            this.task = task;
-        }
-    }
-
     public void linkLast(Task task) {
         Node newNode = new Node(null, null, task);
         if (head == null) {
@@ -78,4 +66,17 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         return getTasks();
     }
+
+    private static class Node {
+        Node prev;
+        Node next;
+        Task task;
+
+        Node(Node prev, Node next, Task task) {
+            this.prev = prev;
+            this.next = next;
+            this.task = task;
+        }
+    }
 }
+
