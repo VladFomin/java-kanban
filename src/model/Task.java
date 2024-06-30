@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +8,8 @@ public class Task {
     private String description;
     private int id;
     private Status status = Status.NEW;
+    protected long duration;
+    protected LocalDateTime startTime;
 
     public enum Status {
         NEW,
@@ -17,6 +20,9 @@ public class Task {
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
+        this.status = status;
+        this.startTime = null; // или любое другое значение по умолчанию для времени
+        this.duration = 0; // или любое другое значение по умолчанию для продолжительности
     }
 
     public String getName() {
@@ -49,6 +55,14 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     @Override

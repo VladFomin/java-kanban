@@ -5,6 +5,7 @@ import model.Subtask;
 import model.Task;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     List<Task> getAllTasks();
@@ -44,4 +45,6 @@ public interface TaskManager {
     void calculateEpicStatus(Epic epic);
 
     List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 }

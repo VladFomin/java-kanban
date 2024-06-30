@@ -1,11 +1,15 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     private List<Subtask> subtasks;
+    protected long duration;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
 
     public Epic(String name, String description, Task.Status status) {
         super(name, description, status);
