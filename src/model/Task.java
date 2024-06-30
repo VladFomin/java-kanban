@@ -1,12 +1,15 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
     private String name;
     private String description;
     private int id;
-    private Status Status;
+    private Status status = Status.NEW;
+    protected long duration;
+    protected LocalDateTime startTime;
 
     public enum Status {
         NEW,
@@ -14,10 +17,12 @@ public class Task {
         DONE
     }
 
-    public Task(String name, String description, Status Status) {
+    public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
-        this.Status = Status.NEW;
+        this.status = status;
+        this.startTime = null; // или любое другое значение по умолчанию для времени
+        this.duration = 0; // или любое другое значение по умолчанию для продолжительности
     }
 
     public String getName() {
@@ -45,11 +50,19 @@ public class Task {
     }
 
     public Status getStatus() {
-        return Status;
+        return status;
     }
 
-    public void setStatus(Status Status) {
-        this.Status = Status;
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     @Override
@@ -57,12 +70,12 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return getId() == task.getId();
+        return id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, id, Status);
+        return Objects.hash(name, description, id, status);
     }
 
     @Override
@@ -71,7 +84,7 @@ public class Task {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", Status=" + Status +
+                ", status=" + status +
                 '}';
     }
 }

@@ -4,10 +4,7 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
@@ -16,16 +13,22 @@ public class InMemoryTaskManager implements TaskManager {
     private int lastId = 0;
     private HistoryManager historyManager;
 
+    protected final Comparator<Task> taskComparator =
+            Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder()))
+                    .thenComparing(Task::getId);
+    protected final TreeSet<Task> prioritizedTasks = new TreeSet<>(taskComparator);
+
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
-
 
     // Получение списков задач
     @Override
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
+
     @Override
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -40,14 +43,17 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeAllTasks() {
         tasks.clear();
+        prioritizedTasks.clear();
     }
+
     @Override
     public void removeAllEpics() {
         epics.clear();
         subtasks.clear();
+        prioritizedTasks.clear();
     }
 
-    // Получение по индефикатору
+    // Получение по идентификатору
     @Override
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
@@ -80,41 +86,63 @@ public class InMemoryTaskManager implements TaskManager {
     public void createTask(Task task) {
         task.setId(++lastId);
         tasks.put(lastId, task);
+        prioritizedTasks.add(task);
     }
+
     @Override
     public void createEpic(Epic epic) {
         epic.setId(++lastId);
         epics.put(lastId, epic);
     }
+
     @Override
     public void createSubtask(Subtask subtask) {
         subtask.setId(++lastId);
         subtasks.put(lastId, subtask);
+        prioritizedTasks.add(subtask);
+        int epicId = subtask.getEpicId();
+        if (epicId != 0) {
+            Epic epic = epics.get(epicId);
+            if (epic != null) {
+                epic.addSubtask(subtask);
+            }
+        }
     }
 
-    //Обновление задач
+    // Обновление задач
     @Override
     public void updateTask(Task updatedTask) {
         int taskId = updatedTask.getId();
 
         if (tasks.containsKey(taskId)) {
             tasks.put(taskId, updatedTask);
+            prioritizedTasks.removeIf(task -> task.getId() == taskId);
+            prioritizedTasks.add(updatedTask);
             System.out.println("Задача с идентификатором " + taskId + " успешно обновлена.");
         } else {
             System.out.println("Задача с идентификатором " + taskId + " не найдена.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "InMemoryTaskManager{" +
+                "historyManager=" + historyManager +
+                '}';
+    }
+
     @Override
     public void updateEpic(Epic updatedEpic) {
         int epicId = updatedEpic.getId();
 
         if (epics.containsKey(epicId)) {
             epics.put(epicId, updatedEpic);
-            System.out.println("Задача с индефикатором" + epicId + "успешно добавлена");
+            System.out.println("Эпик с идентификатором " + epicId + " успешно обновлен.");
         } else {
-            System.out.println("Задача с идентификатором" + epicId + "успешно добавлена");
+            System.out.println("Эпик с идентификатором " + epicId + " не найден.");
         }
     }
+
     @Override
     public void updateSubtasks(int epicId, List<Subtask> newSubtasks) {
         Epic epic = epics.get(epicId);
@@ -126,16 +154,18 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //Удаление по индификатору
+    // Удаление по идентификатору
     @Override
     public void deleteTaskById(int id) {
-        if (tasks.containsKey(id)) {
-            tasks.remove(id);
-            System.out.println("Задача с идентификатором" + id + "удалена.");
+        Task removedTask = tasks.remove(id);
+        if (removedTask != null) {
+            prioritizedTasks.remove(removedTask);
+            System.out.println("Задача с идентификатором " + id + " удалена.");
         } else {
-            System.out.println("Задача с идентификатором" + id + "не найдена");
+            System.out.println("Задача с идентификатором " + id + " не найдена.");
         }
     }
+
     @Override
     public void deleteEpicById(int id) {
         if (epics.containsKey(id)) {
@@ -145,23 +175,21 @@ public class InMemoryTaskManager implements TaskManager {
                 subtasks.remove(subtask.getId());
             }
             epics.remove(id);
+            prioritizedTasks.removeIf(task -> task instanceof Subtask && ((Subtask) task).getEpicId() == id);
             System.out.println("Эпик с идентификатором " + id + " и все связанные с ним сабтаски успешно удалены.");
         } else {
             System.out.println("Эпик с идентификатором " + id + " не найден.");
         }
     }
 
-    //Получение всех сабтасков определенного эпика
+    // Получение всех сабтасков определенного эпика
     @Override
     public List<Subtask> getSubtasksByEpic(int id) {
-        if (epics.containsKey(id)) {
-            Epic epic = epics.get(id);
-            List<Subtask> subtasksByEpic = epic.getSubtasks();
-            return subtasksByEpic;
-        } else {
-            System.out.println("Эпик с идентификатором" + id + "не найден.");
-            return new ArrayList<>();
-        }
+        return epics.values().stream()
+                .filter(epic -> epic.getId() == id)
+                .findFirst()
+                .map(Epic::getSubtasks)
+                .orElseGet(ArrayList::new);
     }
 
     @Override
@@ -191,5 +219,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return this.prioritizedTasks;
     }
 }
